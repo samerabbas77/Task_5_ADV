@@ -1,66 +1,180 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Here’s the updated `README.md` with the Postman link added to the documentation section:
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+---
 
-## About Laravel
+# Task Management API (Advanced Level)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Overview
+This project is an advanced **Task Management API** built with Laravel. The API allows users to create, read, update, delete (CRUD), and assign tasks with different properties such as title, description, priority, due date, status, and assigned user. The system includes role-based access control (Admin, Manager, and User) and advanced model handling with features like `fillable`, `guarded`, `primaryKey`, `table`, and `timestamps`.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Project Features
+### 1. **Task Management (CRUD)**
+- Create, read, update, delete tasks with various attributes.
+- Role-based access control: 
+  - **Admin** can manage all tasks.
+  - **Manager** can assign tasks and manage tasks they created or assigned.
+  - **User** can only modify tasks assigned to them.
+  
+### 2. **Role Management**
+- Users have different roles (`Admin`, `Manager`, `User`).
+- **Admin** has full control over tasks and users.
+- **Manager** can assign tasks to users and manage tasks they've assigned or created.
+- **User** can only update the status and details of tasks assigned to them.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 3. **Date Handling**
+- Custom formatting for due dates using accessors and mutators (format: `d-m-Y H:i`).
 
-## Learning Laravel
+### 4. **Soft Deletes**
+- Tasks and users are soft-deletable, meaning they can be restored after deletion.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 5. **Query Scopes**
+- Filter tasks based on `priority` and `status` using advanced query scopes.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Installation and Setup
+### Prerequisites:
+- PHP >= 8.0
+- Composer
+- MySQL (or any preferred database)
+- Laravel 10.x
 
-## Laravel Sponsors
+### Steps:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repository/task-management-api.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd task-management-api
+   ```
+3. Install dependencies:
+   ```bash
+   composer install
+   ```
+4. Set up environment variables:
+   ```bash
+   cp .env.example .env
+   ```
+   Update your `.env` file with the correct database credentials.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+5.Generate the application key:
+``Terminal
+php artisan key:generate
 
-### Premium Partners
+6. Run migrations:
+   ```bash
+   php artisan migrate
+   ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+7. Start the development server:
+   ```bash
+   php artisan serve
+   ```
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## API Endpoints
+### Task Management:
+- **POST /tasks**: Create a new task.
+- **GET /tasks**: List all tasks (filterable by `priority` and `status`).
+- **GET /tasks/{id}**: Show task details.
+- **PUT /tasks/{id}**: Update task (only the assigned user can edit).
+- **DELETE /tasks/{id}**: Soft delete the task.
 
-## Code of Conduct
+### Task Assignment:
+- **POST /tasks/{id}/assign**: Assign a task to a user (Managers only).
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### User Management:
+- **POST /users**: Create a new user.
+- **GET /users**: List all users.
+- **PUT /users/{id}**: Update user information (Admin only).
+- **DELETE /users/{id}**: Soft delete the user.
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Database Models
+
+### Task Model:
+- **Fillable**: `title`, `description`, `priority`, `due_date`, `status`, `assigned_to`
+- **Guarded**: None
+- **Primary Key**: `task_id` (if different from default `id`)
+- **Table**: `tasks` (default)
+- **Timestamps**: Custom names for timestamps:
+  - `CREATED_AT = 'created_on'`
+  - `UPDATED_AT = 'updated_on'`
+
+### User Model:
+- **Guarded**:  `role`
+- **Timestamps**: Default
+
+---
+
+## Roles and Permissions
+
+1. **Admin**:
+   - Full access to all tasks and users.
+   - Can create, update, assign, and delete tasks.
+   - Can update and delete users.
+
+2. **Manager**:
+   - Can create and assign tasks.
+   - Can manage tasks they've created or assigned to others.
+
+3. **User**:
+   - Can only update the status of tasks assigned to them.
+
+---
+
+## Soft Deletes and Recovery
+- Tasks and users can be soft deleted, allowing recovery later if needed.
+- To restore deleted records, you can use Laravel’s built-in `restore()` method.
+
+---
+
+## Query Scopes
+- **Filter by priority**:
+  ```php
+  public function scopePriority($query, $priority) {
+      return $query->where('priority', $priority);
+  }
+  ```
+- **Filter by status**:
+  ```php
+  public function scopeStatus($query, $status) {
+      return $query->where('status', $status);
+  }
+  ```
+
+---
+
+## Documentation and Testing
+
+You can test the API and explore detailed documentation using **Postman**:
+
+[Task Management API - Postman Documentation](https://documenter.getpostman.com/view/34411360/2sAXjSy8tW)
+
+The Postman documentation includes example requests and responses for all available API endpoints, along with the necessary parameters and expected results.
+
+---
+
+## Code Quality
+- The code is structured with clean, readable comments and documentation.
+- Proper validation, authorization checks, and security measures are implemented.
+  
+## Testing
+- API can be tested using **Postman** or integrated with **Swagger** for auto-generated API documentation.
+
+---
 
 ## License
+This project is licensed under the MIT License.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## Contributors
+- samer abbas
+
+---
+
+This update includes the Postman link under the "Documentation and Testing" section for easy access to the Postman collection.
