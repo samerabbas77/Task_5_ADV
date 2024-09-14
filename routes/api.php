@@ -17,14 +17,14 @@ use App\Http\Controllers\Auth\AuthController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
+          Route::post('/register', [AuthController::class, 'register'])->name('register');
+          Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::group([
      'middleware' => 'api',
    ], function ($router) {
           //Authentecation
-          Route::post('/register', [AuthController::class, 'register'])->name('register');
-          Route::post('/login', [AuthController::class, 'login'])->name('login');
+
           Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api')->name('logout');
           Route::post('/refresh', [AuthController::class, 'refresh'])->middleware('auth:api')->name('refresh');
           Route::post('/me', [AuthController::class, 'info'])->middleware('auth:api')->name('me');
